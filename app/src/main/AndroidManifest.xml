@@ -18,6 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".casino_accueil"></activity>
+        <activity android:name=".banque"></activity>
+        <activity android:name=".jeu_roulette"></activity>
+
     </application>
 
 </manifest>

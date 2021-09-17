@@ -1,122 +1,67 @@
 package com.example.garneau.tp1_devappmobiles_gwenaelgalliot;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-
-public class MainActivity extends AppCompatActivity
-        implements View.OnClickListener{
-
-    SharedPreferences prefs;
+import java.util.Iterator;
+import java.util.Map;
 
 
-    // connection
+public class MainActivity extends AppCompatActivity {
+
     EditText txt_NomUtilisateur;
-    Button btn_connection;
-    int Solde = 0;
-
-
-
-
-    // jeu roulette
-    EditText txtNumb_mise;
-    Button btn_jouer;
-    RadioButton btnRad_pair;
-    RadioButton btnRad_impaire;
-    EditText txtNumb_nombreChoisie;
+    private Button btn_connection;
+    int Solde = 15;
+    EditText txt_montant;
+    ActivityResultLauncher<Intent> activiteResultat;
+    SharedPreferences prefs;
     String name;
-    public static final String Name = "nameKey";
-    public static final int solde = 10;
-    int mise;
-    int nbChoisie;
-    int nbClickPaire = 0;
-    int nbClickImpaire = 0;
-    int test;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.connection);
-        prefs = getSharedPreferences("sauvegard",MODE_PRIVATE);
-
-//  connection
-        txt_NomUtilisateur = (EditText)findViewById(R.id.txtNumb_nombreChoisie);
+        prefs = getSharedPreferences("sauvegarde",MODE_PRIVATE);
+        txt_NomUtilisateur = (EditText)findViewById(R.id.txt_NomUtilisateur);
         btn_connection = (Button)findViewById(R.id.btn_connection);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        editor.putString(Name, "bob");
-        editor.putInt("solde", 10);
-        editor.apply();
-
-        SharedPreferences sharedPreferences = getSharedPreferences("solde", MODE_PRIVATE);
-
-
-
-//  jeu roulette
-        txtNumb_mise = (EditText)findViewById(R.id.txtNumb_mise);
-        btn_jouer = (Button)findViewById(R.id.btn_jouer);
-        btnRad_pair = (RadioButton)findViewById(R.id.btnRad_pair);
-        btnRad_impaire = (RadioButton)findViewById(R.id.btnRad_impair);
-
-
-        btn_jouer.setOnClickListener( this);
-        btnRad_pair.setOnClickListener(this);
-        btnRad_impaire.setOnClickListener(this);
-
+        String name = txt_NomUtilisateur.getText().toString();
+        btn_connection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                utilisateur();
+                Intent intent = new Intent(getApplicationContext(), casino_accueil.class);
+                intent.putExtra("Username",name);
+                startActivity(intent);
+            }
+        });
+    }
+    
+    public void utilisateur(){
+        boolean nameExiste = getSharedPreferences("sauvegarde", 0).contains(name);
+        if(!nameExiste){
+            SharedPreferences sharedPreferences = getSharedPreferences("sauvegarde", MODE_PRIVATE);
+            SharedPreferences.Editor myEdit = sharedPreferences.edit();
+            myEdit.putInt(name, 15);
+            myEdit.apply();
+        }
     }
 
-    @Override
-    public void onClick(View v) {
-//  connection
-
-
-//  roulette
-        switch (v.getId()) {
-            case R.id.btn_jouer:
-                mise = Integer.parseInt(txtNumb_mise.getText().toString());
-                break;
-
-            case R.id.btnRad_impair:
-                if (btnRad_pair.isChecked()){
-                    btnRad_pair.setChecked(false);
-                    nbClickPaire += 1;
-                }
-                nbClickImpaire += 1;
-                if(nbClickImpaire % 2 == 0 && nbClickImpaire!= 0)
-                {
-                    btnRad_impaire.setChecked(false);
-                }
-                break;
-
-            case R.id.btnRad_pair:
-                if (btnRad_impaire.isChecked()){
-                    btnRad_impaire.setChecked(false);
-                    nbClickImpaire += 1;
-                }
-                nbClickPaire += 1;
-                if (nbClickPaire % 2 == 0 && nbClickPaire!= 0)
-                {
-                    btnRad_pair.setChecked(false);
-                }
-                break;
-        }
-        if (btnRad_pair.isChecked() || btnRad_impaire.isChecked()) {
-        txtNumb_nombreChoisie.setEnabled(false);
-        }
-        else{
-            txtNumb_nombreChoisie.setEnabled(true);
-        }
-    }
 
 }
