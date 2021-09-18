@@ -13,8 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Map;
 
 public class casino_accueil extends AppCompatActivity{
-    Intent intent = getIntent();
-    String name = intent.getStringExtra("Username");
+
     Button btn_roulette,btn_banque;
     Map<String, ?> prefs;
 
@@ -25,6 +24,11 @@ public class casino_accueil extends AppCompatActivity{
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.casino_accueil);
+
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("Username");
+        int s = MainActivity.prefs.getInt(name,0);
+        Toast.makeText(this,Integer.toString(s),Toast.LENGTH_LONG).show();
 
         btn_roulette = findViewById(R.id.btn_roulette);
         btn_banque = findViewById(R.id.btn_banque);

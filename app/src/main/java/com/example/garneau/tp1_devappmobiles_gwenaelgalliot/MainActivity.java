@@ -24,44 +24,48 @@ import java.util.Iterator;
 import java.util.Map;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     EditText txt_NomUtilisateur;
     private Button btn_connection;
     int Solde = 15;
     EditText txt_montant;
-    ActivityResultLauncher<Intent> activiteResultat;
-    SharedPreferences prefs;
+
+    // ActivityResultLauncher<Intent> activiteResultat;
+
+    public static SharedPreferences prefs;
     String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.connection);
+        instance();
+    }
+
+    public void instance (){
         prefs = getSharedPreferences("sauvegarde",MODE_PRIVATE);
         txt_NomUtilisateur = (EditText)findViewById(R.id.txt_NomUtilisateur);
         btn_connection = (Button)findViewById(R.id.btn_connection);
-        String name = txt_NomUtilisateur.getText().toString();
-        btn_connection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                utilisateur();
-                Intent intent = new Intent(getApplicationContext(), casino_accueil.class);
-                intent.putExtra("Username",name);
-                startActivity(intent);
-            }
-        });
+
+        btn_connection.setOnClickListener(this);
     }
-    
     public void utilisateur(){
-        boolean nameExiste = getSharedPreferences("sauvegarde", 0).contains(name);
-        if(!nameExiste){
-            SharedPreferences sharedPreferences = getSharedPreferences("sauvegarde", MODE_PRIVATE);
-            SharedPreferences.Editor myEdit = sharedPreferences.edit();
+        name = txt_NomUtilisateur.getText().toString();
+
+        if(!prefs.contains(name)){
+            SharedPreferences.Editor myEdit = prefs.edit();
             myEdit.putInt(name, 15);
             myEdit.apply();
         }
     }
 
 
+    @Override
+    public void onClick(View view) {
+        utilisateur();
+        Intent intent = new Intent(getApplicationContext(), casino_accueil.class);
+        intent.putExtra("Username",name);
+        startActivity(intent);
+    }
 }
