@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TP1_DevAppMobiles_GwenaelGalliot">
         <activity
-            android:name=".MainActivity"
+            android:name=".connexion"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,9 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".casino_accueil"></activity>
+        <activity android:name=".accueil"></activity>
         <activity android:name=".banque"></activity>
-        <activity android:name=".jeu_roulette"></activity>
+        <activity android:name=".roulette"></activity>
 
     </application>
 
