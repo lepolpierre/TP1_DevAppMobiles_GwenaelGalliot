@@ -28,13 +28,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     EditText txt_NomUtilisateur;
     private Button btn_connection;
-    int Solde = 15;
-    EditText txt_montant;
-
-    // ActivityResultLauncher<Intent> activiteResultat;
-
-    public static SharedPreferences prefs;
     String name;
+    int SoldeNouvelleUtilisateur = 15;
+    public static SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +38,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.connection);
         instance();
     }
+    @Override
+    public void onClick(View view) {
+        utilisateur();
+        Intent intent = new Intent(getApplicationContext(), casino_accueil.class);
+        intent.putExtra("Username",name);
+        startActivity(intent);
+    }
 
     public void instance (){
         prefs = getSharedPreferences("sauvegarde",MODE_PRIVATE);
         txt_NomUtilisateur = (EditText)findViewById(R.id.txt_NomUtilisateur);
         btn_connection = (Button)findViewById(R.id.btn_connection);
-
         btn_connection.setOnClickListener(this);
     }
     public void utilisateur(){
@@ -55,17 +57,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(!prefs.contains(name)){
             SharedPreferences.Editor myEdit = prefs.edit();
-            myEdit.putInt(name, 15);
+            myEdit.putInt(name, SoldeNouvelleUtilisateur);
             myEdit.apply();
         }
-    }
-
-
-    @Override
-    public void onClick(View view) {
-        utilisateur();
-        Intent intent = new Intent(getApplicationContext(), casino_accueil.class);
-        intent.putExtra("Username",name);
-        startActivity(intent);
     }
 }
