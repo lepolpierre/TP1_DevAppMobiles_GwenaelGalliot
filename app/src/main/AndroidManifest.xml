@@ -8,19 +8,45 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TP1_DevAppMobiles_GwenaelGalliot">
+        android:theme="@style/Theme.TP1_DevAppMobiles_GwenaelGalliot"
+        android:configChanges="orientation|keyboardHidden|screenSize">
+
         <activity
             android:name=".connexion"
-            android:exported="true">
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name"
+            android:parentActivityName=".accueil"
+            android:exported="true"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.garneau.tp1_devappmobiles_gwenaelgalliot.connexion"/>
         </activity>
-        <activity android:name=".accueil"></activity>
-        <activity android:name=".banque"></activity>
-        <activity android:name=".roulette"></activity>
+        <activity android:name=".accueil"
+            android:configChanges="orientation|keyboardHidden|screenSize">
+
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.example.garneau.tp1_devappmobiles_gwenaelgalliot.connexion"/>
+        </activity>
+        <activity android:name=".banque"
+            android:configChanges="orientation|keyboardHidden|screenSize">
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.example.garneau.tp1_devappmobiles_gwenaelgalliot.connexion"/>
+        </activity>
+        <activity android:name=".roulette"
+            android:configChanges="orientation|keyboardHidden|screenSize">
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.example.garneau.tp1_devappmobiles_gwenaelgalliot.connexion"/>
+        </activity>
+        <activity android:name="android.app.NativeActivity"
+            android:configChanges="orientation|screenSize"/>
 
     </application>
 

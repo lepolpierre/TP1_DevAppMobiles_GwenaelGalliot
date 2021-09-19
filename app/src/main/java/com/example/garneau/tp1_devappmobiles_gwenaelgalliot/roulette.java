@@ -56,27 +56,28 @@ public class roulette extends AppCompatActivity implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_jouer:
-                mise = Integer.parseInt(txtNumb_mise.getText().toString());
-                if (verification()){
-                    jeux();
-                    if (win){
-                        gains();
+                    if (verification()){
+                        jeux();
+                        if (win){
+                            gains();
+                        }
+                        numGagnant = String.valueOf(random);
+                        numJouer = txtNumb_nombreChoisie.getText().toString();
+                        intent = new Intent(getApplicationContext(), accueil.class);
+                        intent.putExtra("Username",name);
+                        intent.putExtra("numGagnant",numGagnant);
+                        intent.putExtra("win", win);
+                        startActivity(intent);
+                        break;
                     }
-                    numGagnant = String.valueOf(random);
-                    numJouer = txtNumb_nombreChoisie.getText().toString();
-                    intent = new Intent(getApplicationContext(), accueil.class);
-                    intent.putExtra("Username",name);
-                    intent.putExtra("numGagnant",numGagnant);
-                    intent.putExtra("win", win);
-                    startActivity(intent);
-                    break;
+                    else    {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "jetons insuffisant", Toast.LENGTH_LONG);
+                        toast.show();
+                        break;
+
                 }
-                else    {
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                            "jetons insuffisant", Toast.LENGTH_LONG);
-                    toast.show();
-                    break;
-                }
+
             case R.id.btnRad_pair:
                 txtNumb_nombreChoisie.setEnabled(false);
                 break;
@@ -111,16 +112,21 @@ public class roulette extends AppCompatActivity implements View.OnClickListener{
     }
 
     public Boolean verification(){
-        if (argent >= mise)
+        String numbMise =txtNumb_mise.getText().toString();
+        if (numbMise.equals ("")){
+            erreur = true;
+        }
+        else if (argent <= mise)
         {
-            erreur = false;
+            erreur = true;
+        }
+        else if (nbChoisie > 36 || nbChoisie < 1){
+            erreur = true;
         }
         else{
-            erreur = true;
+            erreur = false;
         }
-        if (nbChoisie > 36 || nbChoisie < 1){
-            erreur = true;
-        }
+
         return erreur;
     }
 
