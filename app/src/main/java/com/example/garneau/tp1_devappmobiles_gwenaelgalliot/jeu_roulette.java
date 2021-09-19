@@ -10,7 +10,10 @@ package com.example.garneau.tp1_devappmobiles_gwenaelgalliot;
         import android.widget.RadioButton;
         import android.widget.Toast;
 
+        import java.util.Map;
+
 public class jeu_roulette extends AppCompatActivity {
+    Map<String, ?> prefs;
     EditText txtNumb_mise;
     Button btn_jouer;
     RadioButton btnRad_pair;
@@ -24,8 +27,16 @@ public class jeu_roulette extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        prefs = getSharedPreferences("sauvegarde",MODE_PRIVATE).getAll();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jeu_roulette);
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("Username");
+        int s = MainActivity.prefs.getInt(name,0);
+        Toast.makeText(this,Integer.toString(s),Toast.LENGTH_LONG).show();
+
+
 
         txtNumb_mise = (EditText)findViewById(R.id.txtNumb_mise);
         btn_jouer = (Button)findViewById(R.id.btn_jouer);
